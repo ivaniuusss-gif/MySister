@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днем Рождения, Иришка!</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-blur"></div>
+
+    <audio id="bg-music" loop autoplay playsinline>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-btn" class="music-control"><i class="fas fa-music"></i></button>
+
+    <canvas id="particleCanvas"></canvas>
+    
+    <div id="floating-words-container"></div>
+
+    <div id="warp-overlay"></div>
+
+    <section id="hero-section" class="active">
+        <div class="hero-bg-slideshow">
+            <div class="slide" style="background-image: url('hero.jpg');"></div>
+            <div class="slide" style="background-image: url('hero2.jpg');"></div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="glow-text">С Днем Рождения, <span class="gradient-text">Иришка!</span></h1>
+            <p class="subtitle">История, написанная звездами</p>
+            
+            <button id="start-btn" class="premium-btn">Начать путешествие</button>
+        </div>
+    </section>
+
+    <section id="journey-section">
+        <div class="timeline-container">
+            <svg class="timeline-svg" width="100%" height="100">
+                <line x1="0" y1="50" x2="100%" y2="50" class="base-line" />
+                <path id="progress-line" d="" class="active-line" />
+            </svg>
+            <div id="years-container"></div>
+        </div>
+
+        <div class="memory-frame-container">
+            <div class="memory-frame" id="memory-card">
+                <div class="frame-header">
+                    <span id="frame-year" class="year-stamp gradient-text"></span>
+                </div>
+                
+                <div class="gallery-wrapper">
+                    <button class="nav-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="photo-container">
+                        <!-- Two persistent layers for GPU-accelerated crossfade -->
+                        <img id="secondary-photo" src="" alt="Memory" class="photo-layer" style="opacity:0">
+                        <img id="main-photo" src="" alt="Memory" class="photo-layer" style="opacity:1">
+                    </div>
+                    <button class="nav-btn next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="frame-content">
+                    <h3 id="frame-title">Заголовок</h3>
+                    <p id="frame-text">Текст...</p>
+                </div>
+
+                <div class="frame-footer">
+                    <button id="prev-step-btn" class="secondary-btn hidden">Назад</button>
+                    <button id="next-step-btn" class="premium-btn small">Продолжить</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="final-section">
+        <div class="final-bg-slideshow">
+            <div class="slide" style="background-image: url('fin/fin1.jpg');"></div>
+            <div class="slide" style="background-image: url('fin/fin2.jpg');"></div>
+            <div class="slide" style="background-image: url('fin/fin3.jpg');"></div>
+            <div class="slide" style="background-image: url('fin/fin4.jpg');"></div>
+            <div class="slide" style="background-image: url('fin/fin5.jpg');"></div>
+        </div>
+        <div class="final-content">
+            <h2 class="glow-text">Ты — наш Космос!</h2>
+            <p class="final-message">
+                В твой день рождения я хочу пожелать тебе только одного: будь по-настоящему счастлива. Пусть каждая твоя мечта, даже самая безумная, сбывается, а преград на пути просто не будет. Ты уже сделала так много для всех нас, и теперь пришло время просто наслаждаться жизнью. Помни, что у тебя есть мы. Твой тыл, твоя опора и люди, которые гордятся тобой каждый день. Мы все тебя очень сильно любим. С днем рождения!»<br>
+            </p>
+            <button onclick="location.reload()" class="restart-btn">Вернуться в начало</button>
+        </div>
+        <canvas id="confettiCanvas"></canvas>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

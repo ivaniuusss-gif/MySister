@@ -1,0 +1,333 @@
+:root {
+    --bg-color: #050505;
+    --card-bg: rgba(20, 20, 20, 0.6);
+    --gold: #d4af37;
+    --gold-gradient: linear-gradient(45deg, #d4af37, #f3e5ab, #d4af37);
+    --text-main: #ffffff;
+    --text-dim: #aaaaaa;
+    --font-head: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Скрываем стандартный курсор */ }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* === КАСТОМНЫЙ КУРСОР === */
+#cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+}
+#cursor-blur {
+    position: fixed;
+    width: 40px; height: 40px;
+    background: rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s ease-out;
+    transform: translate(-50%, -50%);
+}
+
+/* === МУЗЫКА === */
+.music-control {
+    position: fixed; top: 20px; right: 20px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.2rem;
+    z-index: 100;
+    transition: 0.3s;
+    cursor: none; /* Чтобы использовался наш */
+}
+.music-control:hover { background: var(--gold); color: #000; }
+
+/* === ФОН === */
+#particleCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+#floating-words-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+}
+.floating-word {
+    position: absolute;
+    color: rgba(255,255,255,0.15);
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    animation: floatUp 4s forwards;
+}
+@keyframes floatUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-50px); }
+}
+
+/* === СЕКЦИИ === */
+section {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 1s ease;
+}
+section.active { display: flex; opacity: 1; }
+
+/* === HERO SECTION === */
+.hero-bg-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+.slide {
+    position: absolute; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    opacity: 0; animation: fadeSlide 22s infinite;
+    filter: brightness(0.42) blur(3px);
+}
+.slide:nth-child(1) { animation-delay: 0s; }
+.slide:nth-child(2) { animation-delay: 11s; }
+
+@keyframes fadeSlide {
+    0% { opacity: 0; transform: scale(1); }
+    10% { opacity: 1; }
+    40% { opacity: 1; }
+    50% { opacity: 0; transform: scale(1.05); }
+    100% { opacity: 0; }
+}
+
+.hero-content { text-align: center; z-index: 2; width: 90%; display:flex; flex-direction:column; align-items:center; gap:18px; }
+.glow-text {
+    font-family: var(--font-head); font-size: 3.5rem; margin-bottom: 10px;
+    text-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+.gradient-text {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shine 6s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+
+.time-counter {
+    margin: 30px 0; font-size: 0.9rem; color: var(--text-dim);
+    background: rgba(255,255,255,0.05); padding: 18px 45px;
+    border-radius: 50px; display: inline-block;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+#counter-display { text-align: center; }
+.time-counter .age-ymd { font-size: 1.15rem; color: var(--text-main); font-weight:600; }
+.time-counter .age-hms { margin-top:6px; font-size:0.95rem; color:var(--text-dim); }
+#counter-display { font-size: 1.2rem; color: var(--text-main); margin-top: 5px; font-weight: 600; }
+
+/* КНОПКИ (Скругленные) */
+.premium-btn {
+    padding: 18px 45px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 2px;
+    border-radius: 50px; /* Скругление */
+    transition: transform 0.6s cubic-bezier(.2,.8,.2,1), box-shadow 0.6s;
+    position: relative; overflow: hidden;
+}
+.premium-btn:hover {
+    background: var(--gold); color: #000;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.45);
+    transform: translateY(-4px);
+}
+
+.secondary-btn {
+    background: transparent; border: none; color: var(--text-dim);
+    font-size: 0.9rem; transition: 0.3s;
+    padding: 10px 20px; border-radius: 20px;
+}
+.secondary-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.hidden { display: none; }
+
+/* === JOURNEY (MEMORY CARD) === */
+.timeline-container {
+    position: absolute; top: 5%; left: 50%; transform: translateX(-50%); width: 85%; height: 80px;
+}
+.timeline-container .timeline-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.base-line { stroke: rgba(255,255,255,0.1); stroke-width: 2; stroke-dasharray: 5, 5; }
+.active-line { stroke: var(--gold); stroke-width: 2; transition: all 1.6s cubic-bezier(.2,.8,.2,1); }
+#years-container { position: absolute; left:0; top:0; width: 100%; display: flex; justify-content: space-between; z-index: 2; padding: 0 20px; }
+.year-marker {
+    width: 12px;
+    height: 12px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+    display: inline-block;
+    transition: transform 0.35s cubic-bezier(.2,.8,.2,1), background 0.35s, box-shadow 0.35s;
+    opacity: 0.85;
+    margin: 0 6px;
+}
+.year-marker.active {
+    background: var(--gold);
+    box-shadow: 0 6px 18px rgba(212,175,55,0.35);
+    transform: translateY(6px) scale(1.45);
+    opacity: 1;
+}
+
+.memory-frame-container {
+    perspective: 1000px; /* Для 3D */
+    width: 100%; display: flex; justify-content: center;
+}
+
+.memory-frame {
+    width: 92%; max-width: 720px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 30px; /* Скругление карточки */
+    padding: 40px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    transform-style: preserve-3d; /* Важно для 3D */
+    transition: transform 0.6s cubic-bezier(.2,.8,.2,1), opacity 0.9s;
+    opacity: 0;
+}
+.memory-frame.show { opacity: 1; }
+
+.frame-header { text-align: center; margin-bottom: 20px; }
+.year-stamp { display: none; }
+
+/* ГАЛЕРЕЯ (Закругленная) */
+.gallery-wrapper {
+    position: relative; height: 320px;
+    border-radius: 20px; overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.photo-container { width: 100%; height: 100%; background: transparent; position: relative; overflow: hidden; }
+/* persistent photo layers: positioned absolutely so we only change opacity */
+.photo-container img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 900ms ease, transform 0.8s cubic-bezier(.2,.8,.2,1), filter 0.35s ease; display:block; will-change: opacity, transform; backface-visibility: hidden; transform: translateZ(0); }
+
+/* temporary crossfade image used during transitions */
+.photo-fade {
+    position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; pointer-events: none;
+    transition: opacity 900ms ease; z-index: 2; display:block;
+}
+
+/* overlay shown on hover */
+.photo-overlay {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    color: var(--gold); font-family: var(--font-body); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 2px;
+    background: transparent; padding: 8px 16px; border-radius: 30px; opacity: 0; transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+/* hover: blur image and show overlay, but not when zoomed */
+.photo-container:not(.zoomed):hover img { filter: blur(2px); }
+.photo-container:not(.zoomed):hover .photo-overlay { opacity: 1; }
+
+/* zoomed state: image scaled and overlay hidden */
+.photo-container.zoomed img { transform: scale(1.8); cursor: zoom-out; filter: none; }
+.photo-container.zoomed .photo-overlay { opacity: 0; }
+
+/* Fullscreen photo modal */
+.photo-modal {
+    position: fixed; inset: 0; display:flex; align-items:center; justify-content:center;
+    background: rgba(0,0,0,0); opacity: 0; transition: background 0.5s cubic-bezier(.2,.8,.2,1), opacity 0.5s cubic-bezier(.2,.8,.2,1);
+    z-index: 10000;
+}
+.photo-modal.visible { background: rgba(0,0,0,0.80); opacity: 1; }
+.photo-modal img { max-width: 92%; max-height: 92%; box-shadow: 0 30px 60px rgba(0,0,0,0.6); transition: transform 0.5s cubic-bezier(.2,.8,.2,1), opacity 0.45s ease; transform: scale(0.95); transform-origin: center center; will-change: transform, opacity; }
+.photo-modal.visible img { transform: scale(1.18); }
+
+.nav-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.3); color: #fff; border: none;
+    width: 44px; height: 44px; border-radius: 50%;
+    transition: 0.45s cubic-bezier(.2,.8,.2,1);
+}
+.nav-btn:hover { background: var(--gold); color: #000; }
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.frame-content { text-align: center; }
+.frame-content h3 { font-family: var(--font-head); font-size: 1.8rem; margin-bottom: 10px; color: #fff; }
+.frame-content p { font-size: 1rem; line-height: 1.6; color: #ddd; margin-bottom: 30px; }
+.frame-footer { display: flex; justify-content: center; align-items: center; gap: 22px; }
+
+/* Make prev and next buttons visually similar and centered */
+.frame-footer .premium-btn, .frame-footer .secondary-btn { padding: 12px 35px; border-radius: 50px; }
+.frame-footer .secondary-btn { border: 1px solid #888; color: var(--text-dim); background: transparent; }
+.frame-footer .secondary-btn:hover { background: #e6e6e6; color: #111; box-shadow: none; }
+.frame-footer .premium-btn:hover { background: var(--gold); color: #111; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+.frame-footer .premium-btn { border: 1px solid var(--gold); color: var(--gold); }
+.premium-btn.small { padding: 12px 35px; }
+
+/* === ПЕРЕХОД (WARP) === */
+#warp-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 99; pointer-events: none; opacity: 0;
+    backdrop-filter: blur(0px); transition: 0.5s;
+}
+/* Анимация перехода: не вспышка, а размытие и зум */
+.warping {
+    animation: cinematicWarp 1.9s forwards;
+}
+@keyframes cinematicWarp {
+    0% { opacity: 0; backdrop-filter: blur(0px); background: transparent; }
+    40% { opacity: 1; backdrop-filter: blur(20px); background: rgba(0,0,0,0.2); }
+    100% { opacity: 0; backdrop-filter: blur(0px); background: transparent; }
+}
+
+/* === FINAL === */
+#final-section { text-align: center; }
+.final-message { font-size: 1.3rem; max-width: 600px; margin: 25px auto; line-height: 1.8; color: #e0e0e0; }
+.wishes-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; }
+.wish-tag {
+    border: 1px solid var(--gold); padding: 10px 25px; border-radius: 50px;
+    color: var(--gold); font-size: 0.9rem; background: rgba(212, 175, 55, 0.05);
+}
+#confettiCanvas { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; }
+.restart-btn { background: transparent; border: none; color: var(--text-dim); border-bottom: 1px solid var(--text-dim); padding-bottom: 2px; transition: 0.3s; }
+.restart-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* Final background slideshow (blurred, crossfade) */
+.final-bg-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+.final-bg-slideshow .slide {
+    position: absolute; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.2s ease, transform 6s ease;
+    filter: brightness(0.38);
+    transform: scale(1);
+    will-change: opacity, transform;
+}
+.final-bg-slideshow .slide.visible {
+    opacity: 1;
+    transform: scale(1.02);
+}
+
+/* Image preloader overlay */
+#image-loading-overlay {
+    position: fixed; inset: 0; display:flex; align-items:center; justify-content:center;
+    background: rgba(0,0,0,0.6); z-index: 10005; pointer-events: auto;
+}
+.loader-box { display:flex; flex-direction:column; align-items:center; gap:12px; color:#fff; }
+.loader-spinner { width:48px; height:48px; border-radius:50%; border:4px solid rgba(255,255,255,0.12); border-top-color: var(--gold); animation: spin 1s linear infinite; }
+.loader-text { font-size:1rem; font-weight:600; color:var(--gold); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+    .glow-text { font-size: 2.2rem; }
+    .memory-frame { padding: 25px 20px; }
+    .gallery-wrapper { height: 250px; }
+    /* На телефоне отключаем кастомный курсор */
+    #cursor, #cursor-blur { display: none; }
+    * { cursor: auto; }
+}
